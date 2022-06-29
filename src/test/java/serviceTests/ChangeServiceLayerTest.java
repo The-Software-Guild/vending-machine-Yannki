@@ -1,6 +1,5 @@
-package daoTests;
+package serviceTests;
 
-import dao.VendingMachineDao;
 import dao.VendingMachineDaoImpl;
 import dto.Drink;
 import dto.Item;
@@ -14,11 +13,10 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
-public class VendingMachineDaoImplTest {
-
+public class ChangeServiceLayerTest {
     private VendingMachineDaoImpl machine;
 
-    public VendingMachineDaoImplTest(){
+    public ChangeServiceLayerTest(){
         machine = new VendingMachineDaoImpl();
     }
 

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachineDaoImpl implements VendingMachineDao {
@@ -17,27 +18,22 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     private BigDecimal money = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
 
     @Override
-    public Item removeItem() {
+    public Item removeItem(Item item) {
         return null;
     }
 
     @Override
-    public Item addItem() {
+    public Item addItem(Item item) {
         return null;
     }
 
     @Override
-    public HashMap<Item, BigDecimal> getAllItems() {
+    public Map<Item, BigDecimal> getAllItems() {
         return null;
     }
 
     @Override
-    public Item getItem() {
-        return null;
-    }
-
-    @Override
-    public Item vendItem(Item item) {
+    public Item getItem(Item item) {
         return null;
     }
 

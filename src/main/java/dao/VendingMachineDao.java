@@ -4,18 +4,17 @@ import dto.Item;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
 public interface VendingMachineDao {
 
-    public Item removeItem();
+    public Item removeItem(Item item);
 
-    public Item addItem();
+    public Item addItem(Item item);
 
-    public HashMap<Item, BigDecimal> getAllItems();
+    public Map<Item, BigDecimal> getAllItems();
 
-    public Item getItem();
-
-    public Item vendItem(Item item);
+    public Item getItem(Item item);
 
     public BigDecimal fund(BigDecimal money);
 
