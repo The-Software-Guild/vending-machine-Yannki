@@ -54,7 +54,7 @@ public class ChangeServiceLayerTest {
         machine.addItem(drink);
         machine.addItem(snack);
         try {
-            Map<Item, BigDecimal> checkItems = machine.getAllItems();
+            Map<Item, Integer> checkItems = machine.getAllItems();
             assertEquals(checkItems, inventory);
         } catch (Exception e) {
             fail("Something went wrong with adding an item");
@@ -63,7 +63,7 @@ public class ChangeServiceLayerTest {
 
     @Test
     public void fundTest(){
-        assertEquals(new BigDecimal("1.25"), machine.fund(new BigDecimal("1.25")));
+        assertEquals(new BigDecimal("1.25"), machine.addMoney(new BigDecimal("1.25")));
     }
 
     @Test

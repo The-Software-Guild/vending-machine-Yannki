@@ -12,11 +12,15 @@ public interface VendingMachineDao {
 
     public Item addItem(Item item);
 
-    public Map<Item, BigDecimal> getAllItems();
+    public Map<Item, Integer> getAllItems();
 
-    public Item getItem(Item item);
+    public Item getItem(int index);
 
-    public BigDecimal fund(BigDecimal money);
+    public BigDecimal getFunds();
+
+    public BigDecimal addMoney(BigDecimal money);
 
     public BigDecimal change(BigDecimal money);
+
+    public Map<Integer, Item> getProducts();
 }

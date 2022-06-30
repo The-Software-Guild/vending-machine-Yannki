@@ -28,19 +28,20 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
-    public Map<Item, BigDecimal> getAllItems() {
-        Map<Item, BigDecimal> inventory = new HashMap<>();
-        inventory.put(onlyItem, new BigDecimal(1));
+    public Map<Item, Integer> getAllItems() {
+        Map<Item, Integer> inventory = new HashMap<>();
+        inventory.put(onlyItem, 1);
         return inventory;
     }
 
     @Override
-    public Item getItem(Item item) {
-        if (item.equals(onlyItem)) {
-            return item;
-        } else {
-            return null;
-        }
+    public Item getItem(int index) {
+        return null;
+    }
+
+    @Override
+    public BigDecimal getFunds() {
+        return null;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
-    public BigDecimal fund(BigDecimal money) {
+    public BigDecimal addMoney(BigDecimal money) {
         return null;
     }
 
@@ -62,6 +63,10 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
         return null;
     }
 
+    @Override
+    public Map<Integer, Item> getProducts() {
+        return null;
+    }
 
 
 }

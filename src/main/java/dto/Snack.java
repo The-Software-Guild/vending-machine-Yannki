@@ -9,6 +9,6 @@ public class Snack extends Item{
 
     @Override
     public String display() {
-        return null;
+        return "Snack: " + name + " " + cost;
     }
 }

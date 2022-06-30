@@ -42,4 +42,5 @@ public abstract class Item {
     public int hashCode() {
         return Objects.hash(name, cost, getClass());
     }
+
 }

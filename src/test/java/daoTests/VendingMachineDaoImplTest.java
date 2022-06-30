@@ -1,6 +1,5 @@
 package daoTests;
 
-import dao.VendingMachineDao;
 import dao.VendingMachineDaoImpl;
 import dto.Drink;
 import dto.Item;
@@ -50,22 +49,24 @@ public class VendingMachineDaoImplTest {
     public void getAllItemTest(){
         Item drink = new Drink("Coca-cola", new BigDecimal("1.2"));
         Item snack = new Snack("Twix", new BigDecimal("1.2"));
-        HashMap<Item, BigDecimal> inventory = new HashMap<>();
-        inventory.put(drink, new BigDecimal(1));
-        inventory.put(snack, new BigDecimal(1));
+        Map<Item, Integer> inventory = new HashMap<>();
+        inventory.put(drink, 1);
+        inventory.put(snack, 1);
         machine.addItem(drink);
         machine.addItem(snack);
         try {
-            Map<Item, BigDecimal> checkItems = machine.getAllItems();
+            Map<Item, Integer> checkItems = machine.getAllItems();
+            System.out.println(checkItems);
             assertEquals(checkItems, inventory);
         } catch (Exception e) {
             fail("Something went wrong with adding an item");
         }
     }
 
+    //State test - need to remake
     @Test
-    public void fundTest(){
-        assertEquals(new BigDecimal("1.25"), machine.fund(new BigDecimal("1.25")));
+    public void addMoneyTest(){
+        assertEquals(new BigDecimal("1.25"), machine.addMoney(new BigDecimal("1.25")));
     }
 
     @Test

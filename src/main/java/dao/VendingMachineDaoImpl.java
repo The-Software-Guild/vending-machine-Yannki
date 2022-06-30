@@ -1,6 +1,8 @@
 package dao;
 
+import dto.Drink;
 import dto.Item;
+import dto.Snack;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -12,39 +14,79 @@ import java.util.Scanner;
 
 public class VendingMachineDaoImpl implements VendingMachineDao {
 
+    public static int index = 1;
     public static final String DELIMITER = "::";
     public static final String FILE = "src/main/resources/Inventory.txt";
-    private HashMap<Item, Integer> inventory = new HashMap<>();
-    private BigDecimal money = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+    private Map<Item, Integer> inventory = new HashMap<>();
+    private Map<Integer, Item> products = new HashMap<>();
+    private BigDecimal money;
+
+    public VendingMachineDaoImpl() {
+        populate();
+    }
 
     @Override
     public Item removeItem(Item item) {
+        if (inventory.containsKey(item)) {
+            inventory.replace(item, inventory.get(item) - 1);
+            return item;
+        }
         return null;
     }
 
     @Override
     public Item addItem(Item item) {
+        if (inventory.containsKey(item)) {
+            inventory.replace(item, inventory.get(item) + 1);
+        } else {
+            products.put(index++,item);
+            inventory.put(item, 1);
+        }
+        return item;
+    }
+
+    @Override
+    public Map<Item, Integer> getAllItems() {
+        return inventory;
+    }
+
+    @Override
+    public Item getItem(int index) {
+        if (products.containsKey(index)){
+            return products.get(index);
+        }
         return null;
     }
 
     @Override
-    public Map<Item, BigDecimal> getAllItems() {
-        return null;
+    public BigDecimal getFunds() {
+        return money;
     }
 
     @Override
-    public Item getItem(Item item) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal fund(BigDecimal money) {
-        return null;
+    public BigDecimal addMoney(BigDecimal money) {
+        this.money = money.setScale(2,RoundingMode.HALF_UP);
+        return this.money;
     }
 
     @Override
     public BigDecimal change(BigDecimal money) {
-        return null;
+        BigDecimal change = this.money.subtract(money);
+        this.money = new BigDecimal("0");
+        return change;
+    }
+
+    public Map<Integer,Item> getProducts(){
+        return products;
+    }
+
+    private void populate() {
+        this.products.put(index++, new Drink("Coca-cola", new BigDecimal("1.2")));
+        this.products.put(index++, new Drink("Fanta", new BigDecimal("1.2")));
+        this.products.put(index++, new Snack("Twix", new BigDecimal("1.2")));
+        this.inventory.put(new Drink("Coca-cola", new BigDecimal("1.2")), 5);
+        this.inventory.put(new Drink("Fanta", new BigDecimal("1.2")), 5);
+        this.inventory.put(new Snack("Twix", new BigDecimal("1.2")), 5);
     }
 
 
