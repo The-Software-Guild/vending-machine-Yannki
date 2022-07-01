@@ -14,9 +14,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//TODO: improve asking for funds
-//TODO: create a basic vending machine (get funds, choose item, remove item from vending machine, change)
-
 public class VendingMachineView {
      private UserIO io;
      private VendingMachineDao dao;

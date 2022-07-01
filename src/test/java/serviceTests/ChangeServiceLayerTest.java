@@ -14,6 +14,8 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
+//TODO:JUnit tests
+
 public class ChangeServiceLayerTest {
     private VendingMachineDaoImpl machine;
 
