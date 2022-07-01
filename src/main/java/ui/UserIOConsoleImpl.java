@@ -5,8 +5,9 @@ package ui;
  * May your view be ever in your favor!
  * @author ahill
  */
+import java.math.BigDecimal;
 import java.util.Scanner;
-import main.java.ui.UserIO;
+import ui.UserIO;
 
 public class UserIOConsoleImpl implements UserIO {
 
@@ -37,6 +38,22 @@ public class UserIOConsoleImpl implements UserIO {
     public String readString(String msgPrompt) {
         System.out.println(msgPrompt);
         return console.nextLine();
+    }
+
+    @Override
+    public BigDecimal readBigDecimal(String msgPrompt) {
+        boolean invalidInput = true;
+        BigDecimal num = new BigDecimal("0");
+        while (invalidInput) {
+            try {
+                String stringValue = this.readString(msgPrompt);
+                num = new BigDecimal(stringValue);
+                invalidInput = false;
+            } catch (NumberFormatException e) {
+                this.print("Input error. Please try again.");
+            }
+        }
+        return num;
     }
 
     /**
@@ -208,5 +225,7 @@ public class UserIOConsoleImpl implements UserIO {
         } while (result < min || result > max);
         return result;
     }
+
+
 
 }

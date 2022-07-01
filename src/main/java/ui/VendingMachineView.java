@@ -5,7 +5,10 @@ import dao.VendingMachineDaoPersistenceException;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
-import main.java.ui.UserIO;
+import ui.UserIO;
+import service.ChangeServiceLayer;
+import service.InsufficientFundsException;
+import service.NoItemInventoryException;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -17,10 +20,12 @@ import java.util.stream.Collectors;
 public class VendingMachineView {
      private UserIO io;
      private VendingMachineDao dao;
+     private ChangeServiceLayer service;
 
-     public VendingMachineView(UserIO io, VendingMachineDao dao) {
+     public VendingMachineView(UserIO io, VendingMachineDao dao, ChangeServiceLayer service) {
          this.io = io;
          this.dao = dao;
+         this.service = service;
      }
 
      public void showInventory(){
@@ -38,7 +43,7 @@ public class VendingMachineView {
                   .forEach((key, value) -> {io.print(key + ": " + value.display() + " Amount: " + inventory.get(value));});
      }
      public BigDecimal askForFunds () {
-          return dao.addMoney(new BigDecimal(io.readString("Please add funds to continue")));
+          return service.addMoney(io.readBigDecimal("Please add funds to continue"));
      }
 
      public String askForSelection() {
@@ -47,17 +52,34 @@ public class VendingMachineView {
      }
 
 
-     public void displayTransaction(int id) throws VendingMachineDaoPersistenceException {
-          Item item = dao.getItem(id);
-          BigDecimal change = dao.change(item.getCost());
-          dao.removeItem(item);
-          io.print( "Item cost: " + item.getCost() + " Balance: " + change);
-          io.readString("Enter to continue");
+     public void displayTransaction(int id) {
+          try {
+               Item item = service.getItem(id);
+               BigDecimal change = service.transaction(item.getCost());
+               service.removeItem(item);
+               io.print( "Item cost: " + item.getCost() + " Balance: " + change);
+               io.readString("Enter to continue");
+          } catch (VendingMachineDaoPersistenceException e) {
+               io.print("Inventory could not be loaded");
+               displayExitMessage();
+          } catch (InsufficientFundsException e) {
+               io.print("Insufficient funds for the chosen item");
+               displayExitMessage();
+          } catch (NoItemInventoryException e) {
+               io.print("Item is not available");
+               displayExitMessage();
+          }
+
      }
 
      public void displayExitMessage() {
-          BigDecimal change = dao.change(new BigDecimal("0"));
-          io.print("Change: " + change + ". Thank you!");
+          try {
+               BigDecimal change = service.transaction(new BigDecimal("0"));
+               io.print("Change: " + change + ". Thank you!");
+          } catch (InsufficientFundsException e){
+               io.print("Something went wrong");
+          }
+
      }
 
      public void inputErrorMessage(){

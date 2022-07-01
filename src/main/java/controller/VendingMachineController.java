@@ -1,7 +1,10 @@
 package controller;
 import dao.VendingMachineDao;
 import dao.VendingMachineDaoPersistenceException;
-import main.java.ui.UserIO;
+import ui.UserIO;
+import service.ChangeServiceLayer;
+import service.InsufficientFundsException;
+import service.NoItemInventoryException;
 import ui.UserIOConsoleImpl;
 import ui.VendingMachineView;
 
@@ -10,15 +13,15 @@ import java.math.BigDecimal;
 public class VendingMachineController {
 
     private UserIO io = new UserIOConsoleImpl();
-    private VendingMachineDao dao;
+    private ChangeServiceLayer service;
     private VendingMachineView ui;
 
-    public VendingMachineController(VendingMachineView ui, VendingMachineDao dao){
+    public VendingMachineController(VendingMachineView ui, ChangeServiceLayer service){
         this.ui = ui;
-        this.dao =dao;
+        this.service = service;
     }
 
-    public void run() throws VendingMachineDaoPersistenceException {
+    public void run() {
         boolean exit = false;
         int decision;
         do {
@@ -37,7 +40,7 @@ public class VendingMachineController {
 
     public int askForSelectionAndFunds(){
         BigDecimal funds = ui.askForFunds();
-        dao.addMoney(funds);
+        service.addMoney(funds);
         String decision;
         while (true) {
             decision = ui.askForSelection();
@@ -52,7 +55,7 @@ public class VendingMachineController {
         }
     }
 
-    public void giveItemAndChange(int id) throws VendingMachineDaoPersistenceException {
+    public void giveItemAndChange(int id) {
         ui.displayTransaction(id);
     };
 

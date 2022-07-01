@@ -1,21 +1,20 @@
 package service;
 
+import dao.VendingMachineDaoPersistenceException;
 import dto.Item;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.Map;
 
 public interface ChangeServiceLayer {
 
-    public Item removeItem();
+    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException;
 
-    public Item addItem();
+    public Map<Item, Integer> getAllItems();
 
-    public HashMap<Item, BigDecimal> getAllItems();
+    public Item getItem(int index) throws NoItemInventoryException;
 
-    public Item getItem();
+    public BigDecimal addMoney(BigDecimal money);
 
-    public BigDecimal fund(BigDecimal money);
-
-    public BigDecimal change(BigDecimal money);
+    public BigDecimal transaction(BigDecimal money) throws InsufficientFundsException;
 }
