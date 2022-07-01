@@ -15,8 +15,6 @@ public interface ChangeServiceLayer {
 
     public Item getItem();
 
-    public Item vendItem(Item item);
-
     public BigDecimal fund(BigDecimal money);
 
     public BigDecimal change(BigDecimal money);

@@ -1,5 +1,7 @@
 package dto;
 
+import dao.VendingMachineDaoImpl;
+
 import java.math.BigDecimal;
 
 public class Drink extends Item{
@@ -13,4 +15,8 @@ public class Drink extends Item{
         return "Drink: " + name + " " + cost;
     }
 
+    @Override
+    public String toString() {
+        return "DRINK"+ VendingMachineDaoImpl.DELIMITER + name + VendingMachineDaoImpl.DELIMITER + cost;
+    }
 }

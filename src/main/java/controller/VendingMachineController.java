@@ -1,6 +1,6 @@
 package controller;
 import dao.VendingMachineDao;
-import dto.Item;
+import dao.VendingMachineDaoPersistenceException;
 import main.java.ui.UserIO;
 import ui.UserIOConsoleImpl;
 import ui.VendingMachineView;
@@ -18,7 +18,7 @@ public class VendingMachineController {
         this.dao =dao;
     }
 
-    public void run(){
+    public void run() throws VendingMachineDaoPersistenceException {
         boolean exit = false;
         int decision;
         do {
@@ -47,12 +47,12 @@ public class VendingMachineController {
             try{
                 return Integer.parseInt(decision);
             } catch (NumberFormatException e){
-                io.print("You did not enter 'exit' or id of a product");
+                ui.inputErrorMessage();
             }
         }
     }
 
-    public void giveItemAndChange(int id){
+    public void giveItemAndChange(int id) throws VendingMachineDaoPersistenceException {
         ui.displayTransaction(id);
     };
 

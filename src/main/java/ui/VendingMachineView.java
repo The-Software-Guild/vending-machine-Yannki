@@ -1,6 +1,7 @@
 package ui;
 import dao.VendingMachineDao;
 import dao.VendingMachineDaoImpl;
+import dao.VendingMachineDaoPersistenceException;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
@@ -46,7 +47,7 @@ public class VendingMachineView {
      }
 
 
-     public void displayTransaction(int id) {
+     public void displayTransaction(int id) throws VendingMachineDaoPersistenceException {
           Item item = dao.getItem(id);
           BigDecimal change = dao.change(item.getCost());
           dao.removeItem(item);
@@ -57,6 +58,10 @@ public class VendingMachineView {
      public void displayExitMessage() {
           BigDecimal change = dao.change(new BigDecimal("0"));
           io.print("Change: " + change + ". Thank you!");
+     }
+
+     public void inputErrorMessage(){
+          io.print("You did not enter 'exit' or id of a product");
      }
 
 

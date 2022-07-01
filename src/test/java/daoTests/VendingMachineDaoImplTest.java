@@ -1,6 +1,7 @@
 package daoTests;
 
 import dao.VendingMachineDaoImpl;
+import dao.VendingMachineDaoPersistenceException;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
@@ -17,7 +18,7 @@ public class VendingMachineDaoImplTest {
 
     private VendingMachineDaoImpl machine;
 
-    public VendingMachineDaoImplTest(){
+    public VendingMachineDaoImplTest() throws VendingMachineDaoPersistenceException {
         machine = new VendingMachineDaoImpl();
     }
 

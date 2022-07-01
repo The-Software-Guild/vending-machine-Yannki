@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface VendingMachineDao {
 
-    public Item removeItem(Item item);
+    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException;
 
     public Item addItem(Item item);
 

@@ -1,6 +1,7 @@
 package serviceTests;
 
 import dao.VendingMachineDaoImpl;
+import dao.VendingMachineDaoPersistenceException;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
@@ -16,7 +17,7 @@ import static junit.framework.TestCase.fail;
 public class ChangeServiceLayerTest {
     private VendingMachineDaoImpl machine;
 
-    public ChangeServiceLayerTest(){
+    public ChangeServiceLayerTest() throws VendingMachineDaoPersistenceException {
         machine = new VendingMachineDaoImpl();
     }
 
