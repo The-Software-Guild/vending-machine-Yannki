@@ -27,7 +27,7 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
 
     @Override
     public Item removeItem(Item item) throws VendingMachineDaoPersistenceException {
-        if (inventory.containsKey(item)) {
+        if (inventory.containsKey(item) && inventory.get(item) != 0) {
             inventory.replace(item, inventory.get(item) - 1);
             writeInventory();
             return item;

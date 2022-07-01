@@ -1,23 +1,35 @@
 package service;
 
+import dao.VendingMachineAuditDao;
 import dao.VendingMachineDao;
 import dao.VendingMachineDaoPersistenceException;
 import dto.Item;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChangeServiceLayerImpl implements ChangeServiceLayer {
 
     private VendingMachineDao dao;
+    private VendingMachineAuditDao auditDao;
 
-    public ChangeServiceLayerImpl(VendingMachineDao dao) {
+    public ChangeServiceLayerImpl(VendingMachineDao dao, VendingMachineAuditDao auditDao) {
         this.dao = dao;
+        this.auditDao = auditDao;
     }
 
     @Override
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException {
-        return dao.removeItem(item);
+    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException, NoItemInventoryException {
+        Item tempItem = dao.removeItem(item);
+        if (tempItem != null) {
+            auditDao.writeAuditEntry(item.getName() + " was bought for " + item.getCost());
+            return tempItem;
+        } else {
+            throw new NoItemInventoryException("Item not available");
+        }
+
     }
 
     @Override

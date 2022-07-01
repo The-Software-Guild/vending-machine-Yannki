@@ -55,8 +55,8 @@ public class VendingMachineView {
      public void displayTransaction(int id) {
           try {
                Item item = service.getItem(id);
-               BigDecimal change = service.transaction(item.getCost());
                service.removeItem(item);
+               BigDecimal change = service.transaction(item.getCost());
                io.print( "Item cost: " + item.getCost() + " Balance: " + change);
                io.readString("Enter to continue");
           } catch (VendingMachineDaoPersistenceException e) {
@@ -75,7 +75,7 @@ public class VendingMachineView {
      public void displayExitMessage() {
           try {
                BigDecimal change = service.transaction(new BigDecimal("0"));
-               io.print("Change: " + change + ". Thank you!");
+               io.print("Change: " + change + " Thank you!");
           } catch (InsufficientFundsException e){
                io.print("Something went wrong");
           }
