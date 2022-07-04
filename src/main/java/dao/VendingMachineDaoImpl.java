@@ -1,5 +1,6 @@
 package dao;
 
+import dto.Coin;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;

@@ -1,11 +1,10 @@
 package ui;
 import dao.VendingMachineDao;
-import dao.VendingMachineDaoImpl;
 import dao.VendingMachineDaoPersistenceException;
+import dto.Coin;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
-import ui.UserIO;
 import service.ChangeServiceLayer;
 import service.InsufficientFundsException;
 import service.NoItemInventoryException;
@@ -54,7 +53,17 @@ public class VendingMachineView {
                Item item = service.getItem(id);
                service.removeItem(item);
                BigDecimal change = service.transaction(item.getCost());
-               io.print( "Item cost: " + item.getCost() + " Balance: " + change);
+               BigDecimal quarters = service.changeQuarters(change);
+               change = change.subtract(quarters.multiply(Coin.QUARTER.getValue()));
+               BigDecimal nickles = service.changeNickles(change);
+               change = change.subtract(quarters.multiply(Coin.NICKLE.getValue()));
+               BigDecimal dimes = service.changeDimes(change);
+               change = change.subtract(quarters.multiply(Coin.DIME.getValue()));
+               BigDecimal pennies = service.changePennies(change);
+               change = change.subtract(quarters.multiply(Coin.PENNY.getValue()));
+
+               io.print( "Item cost: " + item.getCost() + " Change: " +
+                       quarters + " quarters, " + nickles + " nickles, " + dimes + " dimes, " + pennies + " pennies.");
                io.readString("Enter to continue");
           } catch (VendingMachineDaoPersistenceException e) {
                io.print("Inventory could not be loaded");

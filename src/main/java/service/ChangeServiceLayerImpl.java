@@ -3,12 +3,12 @@ package service;
 import dao.VendingMachineAuditDao;
 import dao.VendingMachineDao;
 import dao.VendingMachineDaoPersistenceException;
+import dto.Coin;
 import dto.Item;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ChangeServiceLayerImpl implements ChangeServiceLayer {
 
@@ -67,5 +67,29 @@ public class ChangeServiceLayerImpl implements ChangeServiceLayer {
         } else {
             throw new InsufficientFundsException("Insufficient funds for the chosen item");
         }
+    }
+
+    public BigDecimal changeQuarters(BigDecimal money) {
+        BigDecimal quarter = Coin.QUARTER.getValue();
+        BigDecimal amount =  money.divide(quarter).setScale(0, RoundingMode.HALF_UP);
+        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
+    }
+
+    public BigDecimal changeNickles(BigDecimal money) {
+        BigDecimal nickle = Coin.NICKLE.getValue();
+        BigDecimal amount = money.divide(nickle).setScale(0,RoundingMode.HALF_UP);
+        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
+    }
+
+    public BigDecimal changeDimes(BigDecimal money) {
+        BigDecimal dime = Coin.DIME.getValue();
+        BigDecimal amount = money.divide(dime).setScale(0, RoundingMode.HALF_UP);
+        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
+    }
+
+    public BigDecimal changePennies(BigDecimal money) {
+        BigDecimal penny = Coin.PENNY.getValue();
+        BigDecimal amount = money.divide(penny).setScale(0, RoundingMode.HALF_UP);
+        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
     }
 }
