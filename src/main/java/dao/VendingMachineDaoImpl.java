@@ -149,13 +149,6 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
             out.flush();
         });
 
-//        List<Item> itemList = (List<Item>) this.getAllItems().keySet();
-//        for (Student currentStudent : studentList) {
-//            itemAsText = marshallStudent(currentStudent);
-//            out.println(itemAsText);
-//            out.flush();
-//        }
-
         out.close();
     }
 
