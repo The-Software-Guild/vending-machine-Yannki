@@ -18,4 +18,14 @@ public class Snack extends Item{
     public String toString() {
         return "SNACK"+ VendingMachineDaoImpl.DELIMITER + name + VendingMachineDaoImpl.DELIMITER + cost;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }

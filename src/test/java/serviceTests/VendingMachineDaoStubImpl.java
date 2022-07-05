@@ -55,12 +55,12 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
 
     @Override
     public BigDecimal addMoney(BigDecimal money) {
-        return null;
+        return money;
     }
 
     @Override
     public BigDecimal change(BigDecimal money) {
-        return null;
+        return money.negate();
     }
 
     @Override
