@@ -51,13 +51,13 @@ public class VendingMachineView {
           try {
                Item item = service.removeItem(id);
                BigDecimal change = service.transaction(item.getCost());
-               BigDecimal quarters = service.changeQuarters(change);
+               BigDecimal quarters = Coin.changeQuarters(change);
                change = change.subtract(quarters.multiply(Coin.QUARTER.getValue()));
-               BigDecimal nickles = service.changeNickles(change);
+               BigDecimal nickles = Coin.changeNickles(change);
                change = change.subtract(quarters.multiply(Coin.NICKLE.getValue()));
-               BigDecimal dimes = service.changeDimes(change);
+               BigDecimal dimes = Coin.changeDimes(change);
                change = change.subtract(quarters.multiply(Coin.DIME.getValue()));
-               BigDecimal pennies = service.changePennies(change);
+               BigDecimal pennies = Coin.changePennies(change);
                change = change.subtract(quarters.multiply(Coin.PENNY.getValue()));
 
                io.print( "Item cost: " + item.getCost() + " Change: " +

@@ -97,23 +97,4 @@ public class ChangeServiceLayerTest implements ChangeServiceLayer {
         return null;
     }
 
-    @Override
-    public BigDecimal changeQuarters(BigDecimal money) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal changeNickles(BigDecimal money) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal changeDimes(BigDecimal money) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal changePennies(BigDecimal money) {
-        return null;
-    }
 }

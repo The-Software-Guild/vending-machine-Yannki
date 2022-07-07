@@ -18,11 +18,4 @@ public interface ChangeServiceLayer {
 
     public BigDecimal transaction(BigDecimal money) throws InsufficientFundsException;
 
-    public BigDecimal changeQuarters(BigDecimal money);
-
-    public BigDecimal changeNickles(BigDecimal money);
-
-    public BigDecimal changeDimes(BigDecimal money);
-
-    public BigDecimal changePennies(BigDecimal money);
 }

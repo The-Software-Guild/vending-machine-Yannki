@@ -69,27 +69,5 @@ public class ChangeServiceLayerImpl implements ChangeServiceLayer {
         }
     }
 
-    public BigDecimal changeQuarters(BigDecimal money) {
-        BigDecimal quarter = Coin.QUARTER.getValue();
-        BigDecimal amount =  money.divide(quarter).setScale(0, RoundingMode.HALF_UP);
-        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
-    }
 
-    public BigDecimal changeNickles(BigDecimal money) {
-        BigDecimal nickle = Coin.NICKLE.getValue();
-        BigDecimal amount = money.divide(nickle).setScale(0,RoundingMode.HALF_UP);
-        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
-    }
-
-    public BigDecimal changeDimes(BigDecimal money) {
-        BigDecimal dime = Coin.DIME.getValue();
-        BigDecimal amount = money.divide(dime).setScale(0, RoundingMode.HALF_UP);
-        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
-    }
-
-    public BigDecimal changePennies(BigDecimal money) {
-        BigDecimal penny = Coin.PENNY.getValue();
-        BigDecimal amount = money.divide(penny).setScale(0, RoundingMode.HALF_UP);
-        return amount.compareTo(new BigDecimal("0")) != -1 ? amount : new BigDecimal("0");
-    }
 }
