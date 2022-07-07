@@ -6,10 +6,12 @@ import java.util.Objects;
 public abstract class Item {
     String name;
     BigDecimal cost;
+    int quantity;
 
-    public Item(String name, BigDecimal cost){
+    public Item(String name, BigDecimal cost, int quantity){
         this.name = name;
         this.cost = cost;
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -20,12 +22,24 @@ public abstract class Item {
         return cost;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void decreaseQuantity(){
+        this.quantity--;
     }
 
     public abstract String display();

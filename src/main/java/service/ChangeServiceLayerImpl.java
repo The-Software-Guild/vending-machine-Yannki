@@ -21,10 +21,10 @@ public class ChangeServiceLayerImpl implements ChangeServiceLayer {
     }
 
     @Override
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException, NoItemInventoryException {
-        Item tempItem = dao.removeItem(item);
+    public Item removeItem(Integer index) throws VendingMachineDaoPersistenceException, NoItemInventoryException {
+        Item tempItem = dao.buyItem(index);
         if (tempItem != null) {
-            auditDao.writeAuditEntry(item.getName() + " was bought for " + item.getCost());
+            auditDao.writeAuditEntry(tempItem.getName() + " was bought for " + tempItem.getCost());
             return tempItem;
         } else {
             throw new NoItemInventoryException("Item not available");
@@ -33,15 +33,15 @@ public class ChangeServiceLayerImpl implements ChangeServiceLayer {
     }
 
     @Override
-    public Map<Item, Integer> getAllItems() {
-        return dao.getAllItems();
+    public Map<Integer, Item> getAllItems() {
+        return dao.getInventory();
     }
 
     @Override
     public Item getItem(int index) throws NoItemInventoryException {
-        Map<Item, Integer> list = dao.getAllItems();
+        Map<Integer, Item> list = dao.getInventory();
         try {
-            if (dao.getItem(index) != null || list.get(dao.getItem(index)) > 0) {
+            if (dao.getItem(index) != null || list.get(index).getQuantity() > 0) {
                 return dao.getItem(index);
             } else {
                 throw new NoItemInventoryException("Item was not found.");

@@ -1,15 +1,9 @@
 package serviceTests;
 
-import dao.VendingMachineDaoImpl;
 import dao.VendingMachineDaoPersistenceException;
 import dto.Drink;
 import dto.Item;
-import dto.Snack;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.internal.MockitoCore;
-import org.mockito.junit.jupiter.MockitoExtension;
 import service.ChangeServiceLayer;
 import service.InsufficientFundsException;
 import service.NoItemInventoryException;
@@ -32,7 +26,7 @@ public class ChangeServiceLayerTest implements ChangeServiceLayer {
 
     @Test
     public void addItemTest(){
-        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"));
+        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"),1);
         try {
             Item checkDrink = machine.addItem(drink);
             assertEquals(drink, checkDrink);
@@ -44,10 +38,10 @@ public class ChangeServiceLayerTest implements ChangeServiceLayer {
 
     @Test
     public void removeItemTest(){
-        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"));
+        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"),1);
         machine.addItem(drink);
         try {
-            Item checkDrink = machine.removeItem(drink);
+            Item checkDrink = machine.buyItem(1);
             assertEquals(drink, checkDrink);
         } catch (Exception e) {
             fail("Something went wrong with adding an item");
@@ -56,11 +50,11 @@ public class ChangeServiceLayerTest implements ChangeServiceLayer {
 
     @Test
     public void getAllItemTest(){
-        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"));
+        Item drink = new Drink("Coca-cola", new BigDecimal("1.2"),1);
         Map<Item, Integer> inventory = new HashMap<>();
         inventory.put(drink, 1);
         try {
-            Map<Item, Integer> checkItems = machine.getAllItems();
+            Map<Integer, Item> checkItems = machine.getInventory();
             assertEquals(inventory,checkItems);
         } catch (Exception e) {
             fail("Something went wrong with adding an item");
@@ -79,12 +73,12 @@ public class ChangeServiceLayerTest implements ChangeServiceLayer {
 
     //Unimportant for now
     @Override
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException, NoItemInventoryException {
+    public Item removeItem(Integer item) throws VendingMachineDaoPersistenceException, NoItemInventoryException {
         return null;
     }
 
     @Override
-    public Map<Item, Integer> getAllItems() {
+    public Map<Integer, Item> getAllItems() {
         return null;
     }
 

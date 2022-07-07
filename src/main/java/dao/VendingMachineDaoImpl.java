@@ -1,6 +1,5 @@
 package dao;
 
-import dto.Coin;
 import dto.Drink;
 import dto.Item;
 import dto.Snack;
@@ -9,7 +8,6 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -18,8 +16,8 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     public static int index = 1;
     public static final String DELIMITER = "::";
     public static final String FILE = "src/main/resources/Inventory.txt";
-    private Map<Item, Integer> inventory = new HashMap<>();
-    private Map<Integer, Item> products = new HashMap<>();
+    private Map<Integer, Item> inventory = new HashMap<>();
+    private Map<Integer, Item> products = new HashMap<Integer, Item>();
     private BigDecimal money;
 
     public VendingMachineDaoImpl() throws VendingMachineDaoPersistenceException {
@@ -27,35 +25,41 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     }
 
     @Override
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException {
-        if (inventory.containsKey(item) && inventory.get(item) != 0) {
-            inventory.replace(item, inventory.get(item) - 1);
+    public Item buyItem(Integer index) throws VendingMachineDaoPersistenceException {
+        if (inventory.containsKey(index) && inventory.get(index).getQuantity() > 0) {
+            inventory.get(index).decreaseQuantity();
             writeInventory();
-            return item;
+            return inventory.get(index);
         }
         return null;
     }
 
     @Override
     public Item addItem(Item item) {
-        if (inventory.containsKey(item)) {
-            inventory.replace(item, inventory.get(item) + 1);
+        if (inventory.containsValue(item)) {
+            int index = 0;
+            for (int i = 0; i < inventory.size(); i++){
+                if (inventory.get(i).equals(item)) {
+                    index = i;
+                    break;
+                }
+            }
+            inventory.replace(index,item);
         } else {
-            products.put(index++, item);
-            inventory.put(item, 1);
+            inventory.put(index++, item);
         }
         return item;
     }
 
     @Override
-    public Map<Item, Integer> getAllItems() {
+    public Map<Integer, Item> getInventory() {
         return inventory;
     }
 
     @Override
-    public Item getItem(int index) {
-        if (products.containsKey(index)) {
-            return products.get(index);
+    public Item getItem(Integer index) {
+        if (inventory.containsKey(index)) {
+            return inventory.get(index);
         }
         return null;
     }
@@ -83,11 +87,11 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     }
 
 
-    private Map<Item, Integer> unmarshallItem(String itemtAsText) {
+    private Map<Integer, Item> unmarshallItem(String itemtAsText) {
         // studentAsText is expecting a line read in from our file.
         // For example, it might look like this:
         // DRINK::Coca-cola::1.2::5
-        Map<Item, Integer> item = new HashMap<>();
+        Map<Integer, Item> item = new HashMap<>();
         String[] itemTokens = itemtAsText.split(DELIMITER);
 
         String name = itemTokens[1];
@@ -95,9 +99,9 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
         Integer amount = Integer.parseInt(itemTokens[3]);
 
         if (itemTokens[0].equals("DRINK")) {
-            item.put(new Drink(name, cost), amount);
+            item.put(index++, new Drink(name, cost, amount));
         } else {
-            item.put(new Snack(name, cost), amount);
+            item.put(index++, new Snack(name, cost, amount));
         }
         return item;
     }
@@ -114,7 +118,7 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
                     "-_- Could not load inventory data into memory.", e);
         }
         String currentLine;
-        Map<Item, Integer> currentItem;
+        Map<Integer, Item> currentItem;
 
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
@@ -123,13 +127,11 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
             inventory.putAll(currentItem);
         }
 
-        inventory.forEach((key,value) -> products.put(index++, key));
         scanner.close();
     }
 
     private String marshallItem(Item aItem) {
-        String itemAsText = aItem.toString() + DELIMITER;
-        itemAsText += inventory.get(aItem);
+        String itemAsText = aItem.toString();
         return itemAsText;
     }
 
@@ -143,8 +145,8 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
                     "Could not save inventory data.", e);
         }
 
-        this.getAllItems().forEach((key, value) -> {
-            String itemAsText = marshallItem(key);
+        this.getInventory().forEach((key, value) -> {
+            String itemAsText = marshallItem(value);
             out.println(itemAsText);
             out.flush();
         });

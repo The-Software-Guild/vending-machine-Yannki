@@ -3,18 +3,17 @@ package dao;
 import dto.Item;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 public interface VendingMachineDao {
 
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException;
+    public Item buyItem(Integer index) throws VendingMachineDaoPersistenceException;
 
     public Item addItem(Item item);
 
-    public Map<Item, Integer> getAllItems();
+    public Map<Integer, Item> getInventory();
 
-    public Item getItem(int index);
+    public Item getItem(Integer index);
 
     public BigDecimal getFunds();
 

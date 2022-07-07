@@ -25,18 +25,17 @@ public class VendingMachineView {
      }
 
      public void showInventory(){
-          Map<Item, Integer> inventory = dao.getAllItems();
-          Map<Integer, Item> products = dao.getProducts();
+          Map<Integer, Item> inventory = dao.getInventory();
           System.out.println("==============Drinks===============");
-          products.entrySet().stream()
+          inventory.entrySet().stream()
                    .filter(x -> x.getValue() instanceof Drink)
                    .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()))
-                   .forEach((key, value) -> {io.print(key + ": " + value.display() + " Amount: " + inventory.get(value));});
+                   .forEach((key, value) -> {io.print(key + ": " + value.display());});
           System.out.println("==============Snacks===============");
-          products.entrySet().stream()
+          inventory.entrySet().stream()
                   .filter(x -> x.getValue() instanceof Snack)
                   .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()))
-                  .forEach((key, value) -> {io.print(key + ": " + value.display() + " Amount: " + inventory.get(value));});
+                  .forEach((key, value) -> {io.print(key + ": " + value.display());});
      }
      public BigDecimal askForFunds () {
           return service.addMoney(io.readBigDecimal("Please add funds to continue"));
@@ -50,8 +49,7 @@ public class VendingMachineView {
 
      public void displayTransaction(int id) {
           try {
-               Item item = service.getItem(id);
-               service.removeItem(item);
+               Item item = service.removeItem(id);
                BigDecimal change = service.transaction(item.getCost());
                BigDecimal quarters = service.changeQuarters(change);
                change = change.subtract(quarters.multiply(Coin.QUARTER.getValue()));

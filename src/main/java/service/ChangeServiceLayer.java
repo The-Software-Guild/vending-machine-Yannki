@@ -8,9 +8,9 @@ import java.util.Map;
 
 public interface ChangeServiceLayer {
 
-    public Item removeItem(Item item) throws VendingMachineDaoPersistenceException, NoItemInventoryException;
+    public Item removeItem(Integer index) throws VendingMachineDaoPersistenceException, NoItemInventoryException;
 
-    public Map<Item, Integer> getAllItems();
+    public Map<Integer, Item> getAllItems();
 
     public Item getItem(int index) throws NoItemInventoryException;
 

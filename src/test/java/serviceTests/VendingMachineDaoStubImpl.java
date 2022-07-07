@@ -5,9 +5,7 @@ import dto.Drink;
 import dto.Item;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class VendingMachineDaoStubImpl implements VendingMachineDao {
@@ -15,7 +13,7 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     public Item onlyItem;
 
     public VendingMachineDaoStubImpl() {
-        this.onlyItem = new Drink("Coca-cola", new BigDecimal("1.2"));
+        this.onlyItem = new Drink("Coca-cola", new BigDecimal("1.2"),1);
     }
 
     @Override
@@ -28,14 +26,14 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
-    public Map<Item, Integer> getAllItems() {
-        Map<Item, Integer> inventory = new HashMap<>();
-        inventory.put(onlyItem, 1);
+    public Map<Integer, Item> getInventory() {
+        Map<Integer, Item> inventory = new HashMap<>();
+        inventory.put(1,onlyItem);
         return inventory;
     }
 
     @Override
-    public Item getItem(int index) {
+    public Item getItem(Integer index) {
         return null;
     }
 
@@ -45,9 +43,9 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
-    public Item removeItem(Item item) {
-        if (item.equals(onlyItem)) {
-            return item;
+    public Item buyItem(Integer index) {
+        if (onlyItem != null) {
+            return onlyItem;
         } else {
             return null;
         }
